@@ -9,7 +9,13 @@ CREATE TABLE whyte_irecharge_task.customers (
   email VARCHAR(255) NOT NULL,
   createTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   firstName VARCHAR(255) NOT NULL,
+  middleName VARCHAR(255),
   lastName VARCHAR(255),
+  city VARCHAR(255) NOT NULL,
+  address VARCHAR(255) NOT NULL,
+  state VARCHAR(255) NOT NULL,
+  country VARCHAR(32) NOT NULL,
+  zipcode INT NOT NULL,
   UNIQUE (email),
   PRIMARY KEY(customerId)
 );
