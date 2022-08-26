@@ -9,10 +9,7 @@ const { PORT } = require("./constants");
 
 const app = express();
 app.use(cors())
-app.all("*", (req, res, next) => {
- next(new AppError(`The URL ${req.originalUrl} does not exists`, 404));
-});
-app.use(errorHandler);
+app.use(express.json());
 app.use("/v1", api)
 
 app.listen(PORT, () => {
