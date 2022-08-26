@@ -75,18 +75,19 @@ Documentation of available API endpoints including the URL, request parameters, 
 - Returns a list of customers, status message and number of customers.
 - Sample: `curl http://localhost:3000/v1/customers`
 
-````json
-"status": "success",
-"length": 1,
-"data": [
-    {
-        "customerId": 1,
-        "email": "victordavidwhyte@gmail.com",
-        "createTime": "2022-08-26T14:26:40.000Z",
-        "firstName": "victor",
-        "lastName": "whyte"
-    }
-]
+```json
+{
+	"status": "success",
+	"length": 1,
+	"data": [
+	    {
+	        "customerId": 1,
+	        "email": "victordavidwhyte@gmail.com",
+	        "createTime": "2022-08-26T14:26:40.000Z",
+	        "firstName": "victor",
+	        "lastName": "whyte"
+	    }
+	]
 }
 ```
 
@@ -103,7 +104,7 @@ Documentation of available API endpoints including the URL, request parameters, 
   - `customer`: customer details.
 
 #### Sample request
-````json
+```json
 {
     "email": "victorahyte@gmail.com",
     "firstName": "victor",
@@ -112,7 +113,7 @@ Documentation of available API endpoints including the URL, request parameters, 
 ```
 
 #### Sample response
-````json
+```json
 {
     "status": "success",
     "customer": {
