@@ -1,8 +1,8 @@
-Charge my card
+iRecharge code task
 ----
 
 ## Introduction
-Charge my card is a RESTful API service to charge a customer's card using a third party payement gateway (Flutterwave) to process payments
+iRecharge code task is a RESTful API service to charge a customer's card using a third party payement gateway (Flutterwave) to process payments
 
 ## Overview
 The faetures of this service includes:
@@ -64,4 +64,62 @@ DB_PASSWORD=[your_db_user_password]
 4. Start the server.
 ```
 npm run dev
+
+<!-- Server will start running by default of port 3000 -->
+```
+
+## v1 Endpoints Documentation` (current release)
+Documentation of available API endpoints including the URL, request parameters, and the response body
+### `GET '/v1/customers'`
+- Fetches all customers.
+- Returns a list of customers, status message and number of customers.
+- Sample: `curl http://localhost:3000/v1/customers`
+
+````json
+"status": "success",
+"length": 1,
+"data": [
+    {
+        "customerId": 1,
+        "email": "victordavidwhyte@gmail.com",
+        "createTime": "2022-08-26T14:26:40.000Z",
+        "firstName": "victor",
+        "lastName": "whyte"
+    }
+]
+}
+```
+
+### `POST '/v1/customers'`
+- Add a new customer.
+- Request body:
+  - `firstName`: String (required).
+  - `lastName`: String (optional)
+  - `email`: String (required).
+- Returns a list of customers, status message and number of customers.
+- Sample: `curl http://localhost:3000/v1/customers`
+- Returns:
+  - `status`: success or error.
+  - `customer`: customer details.
+
+#### Sample request
+````json
+{
+    "email": "victorahyte@gmail.com",
+    "firstName": "victor",
+    "lastName": "whyte"
+}
+```
+
+#### Sample response
+````json
+{
+    "status": "success",
+    "customer": {
+        "customerId": 1,
+        "email": "victordavidwhyte@gmail.com",
+        "firstName": "victor",
+        "lastName": "whyte"
+    }
+}
 ```
