@@ -68,7 +68,7 @@ npm run dev
 <!-- Server will start running by default of port 3000 -->
 ```
 
-## v1 Endpoints Documentation` (current release)
+## v1 Endpoints Documentation (current release)
 Documentation of available API endpoints including the URL, request parameters, and the response body
 ### `GET '/v1/customers'`
 - Fetches all customers.
