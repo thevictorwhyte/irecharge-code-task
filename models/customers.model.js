@@ -5,7 +5,7 @@ const getAllCustomers = async (next) => {
 	const results = await connection.promise().query({
 		sql: 'SELECT * FROM whyte_irecharge_task.customers;'
 	});
-	return results
+	return results[0];
 }
 
 const createNewCustomer = async (email, firstName, lastName) => {
