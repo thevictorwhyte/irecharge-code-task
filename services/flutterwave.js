@@ -25,7 +25,9 @@ const fwChargeCard = async (customer, chargeDetails) => {
 	}
 	const response = await flw.Charge.card(payload);
 	return {
-		ref: response.data.flw_ref
+		ref: response.data ? response.data.flw_ref : null,
+		status: response.status,
+		message: response.message
 	};
 }
 

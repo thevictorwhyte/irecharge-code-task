@@ -24,7 +24,10 @@ CREATE TABLE whyte_irecharge_task.payments (
   paymentId INT NOT NULL AUTO_INCREMENT,
   customerId INT NOT NULL,
   createTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  cardLast4Digits INT NOT NULL,
+  currency VARCHAR(32) NOT NULL,
   amount FLOAT(0) NOT NULL,
+  ref VARCHAR(255) NOT NULL,
   PRIMARY KEY(paymentId),
   FOREIGN KEY (customerId) REFERENCES whyte_irecharge_task.customers(customerId)
 );
