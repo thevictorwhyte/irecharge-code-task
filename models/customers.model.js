@@ -1,15 +1,22 @@
 const connection = require("./db.js");
 const AppError = require("../utils/AppError")
 
-const getAllCustomers = (next) => {
-	connection.query({
-		sql: 'SELECT * FROM customers;'
-	}, (err, results, fields) => {
-		if(error) return next(new AppError(err));
-		return results
+const getAllCustomers = async (next) => {
+	const results = await connection.promise().query({
+		sql: 'SELECT * FROM whyte_irecharge_task.customers;'
 	});
+	return results
+}
+
+const createNewCustomer = async (email, firstName, lastName) => {
+	const newCustomer = await connection.promise().query({
+		sql: 'INSERT INTO whyte_irecharge_task.customers (email, firstName, lastName) VALUES(?)',
+		values: [[email, firstName, lastName]]
+	});
+	return newCustomer[0].insertId;
 }
 
 module.exports = {
-	getAllCustomers
+	getAllCustomers,
+	createNewCustomer
 }

@@ -1,9 +1,9 @@
 const express = require("express");
 
-const { httpGetPaymentsForCustomer } = require("./payments.controller")
+const { httpGetCustomerPayments } = require("./payments.controller")
 
 const paymentsRouter = express.Router();
 
-paymentsRouter.get(`/${customerId}`, httpGetPaymentsForCustomer);
+paymentsRouter.get("/:customerId", httpGetCustomerPayments);
 
 module.exports = paymentsRouter;

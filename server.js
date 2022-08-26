@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express =  require("express");
 const cors = require("cors");
 
@@ -10,7 +11,8 @@ const { PORT } = require("./constants");
 const app = express();
 app.use(cors())
 app.use(express.json());
-app.use("/v1", api)
+app.use("/v1", api);
+app.use(errorHandler);
 
 app.listen(PORT, () => {
  console.log(`server running on port ${PORT}`);
