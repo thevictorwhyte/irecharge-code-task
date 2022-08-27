@@ -10,7 +10,7 @@ const { PORT } = require("./constants");
 
 const app = express();
 app.use(cors({
-    origin: "http://localhost:3000"
+    origin: `http://localhost:${PORT}`
 }))
 app.use(express.json());
 app.use("/v1", api);

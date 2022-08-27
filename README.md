@@ -50,7 +50,7 @@ cd irecharge-code-task
 npm install
 ```
 
-2. Run the setup SQL script. This runs the necessary command to create a database and the necessary tables in that database.
+2. Run the setup SQL script in your bash terminal. This runs the necessary command to create a database and the all the needed tables in that database.
 ```
 mysql --user=[your_db_username] --password=[your_db_user_password] < setup.sql
 ```
@@ -59,6 +59,9 @@ mysql --user=[your_db_username] --password=[your_db_user_password] < setup.sql
 ```
 DB_USER=[your_db_username]
 DB_PASSWORD=[your_db_user_password]
+FLW_PUBLIC_KEY=[your flutterwave public key]
+FLW_SECRET_KEY=[your flutterwave secret key]
+FLW_ENCRYPTION_KEY=[your flutterwave encryption key]
 ```
 
 4. Start the server.
