@@ -16,8 +16,39 @@ The faetures of this service includes:
 
 ## Prerequisite
 For you to run this project on your local computer, ensure you have install and setup the following:
-* **Node** as the javascript runtime engine of choice.
-* **MySQL** as the database of choice.
+* [**Node**](https://nodejs.org/en/) as the javascript runtime engine of choice.
+* [**MySQL**](https://www.mysql.com/downloads/) as the database of choice.
+
+## Main Files: Project Structure
+  ```sh
+  ├── setup.sql
+  ├── server.js 
+  ├── README.md
+  ├── package.json
+  ├── package-lock.json
+  ├── constants.js
+  ├── app.js
+  ├── .gitignore
+  ├── utils
+  │   ├── appError.js 
+  │   ├── errorHandler.js
+  │   ├── helperFunctions.js
+  ├── services
+  │   ├── flutterwave.js 
+  │   ├── mysql.js
+  ├── routes
+  │   ├── api.js
+  └── customers
+  │    ├── customers.controller.js
+  │    ├── customers.router.js
+  │    ├── customers.test.js
+  ├── payments
+  │    ├── payments.controller.js
+  │    ├── payments.router.js
+  ├── models
+     ├── customers.model.js 
+     ├── payments.model.js
+  ```
 
 ## Development Setup
 1. Clone the repo, change into the directory and install packages using npm.
@@ -40,6 +71,7 @@ DB_PASSWORD=[your_db_user_password]
 FLW_PUBLIC_KEY=[your flutterwave public key]
 FLW_SECRET_KEY=[your flutterwave secret key]
 FLW_ENCRYPTION_KEY=[your flutterwave encryption key]
+PORT=3000
 ```
 
 4. Start the server.
@@ -49,30 +81,5 @@ npm run dev
 <!-- Server will start running by default of port 3000 -->
 ```
 
-## Main Files: Project Structure
-  ```sh
-  ├── setup.sql
-  ├── server.js 
-  ├── README.md
-  ├── package.json
-  ├── package-lock.json
-  ├── constants.js
-  ├── gitignore
-  ├── utils
-  │   ├── appError.js 
-  │   ├── errorHandler.js
-  ├── routes
-  │   ├── api.js
-  └── customers
-  │    ├── customers.controller.js
-  │    ├── customers.router.js
-  ├── payments
-  │    ├── payments.controller.js
-  │    ├── payments.router.js
-  ├── models
-     ├── customers.model.js 
-     ├── db.js
-     ├── payments.model.js
-  ```
 
 ### [Go to documentation](https://documenter.getpostman.com/view/10703028/VUr1HtAY) 
