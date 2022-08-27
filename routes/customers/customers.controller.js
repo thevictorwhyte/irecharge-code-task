@@ -1,6 +1,11 @@
-const { getAllCustomers, createNewCustomer, getCustomer, getCustomerPayments } = require("../../models/customers.model");
+const { getAllCustomers, 
+		createNewCustomer, 
+		getCustomer, 
+		getCustomerPayments,
+		doesCustomerExist
+	} = require("../../models/customers.model");
 const AppError = require("../../utils/AppError");
-const { fwChargeCard, fwValidateCharge } = require("../../services/flutterwave.js");
+const { fwChargeCard } = require("../../services/flutterwave.js");
 const { addNewPayment } = require("../../models/payments.model");
 
 const httpAllCustomers = async (req, res, next) => {
@@ -53,6 +58,9 @@ const httpGetCustomer = async (req, res, next) => {
 	try {
 		const customerId = req.params.customerId;
 		const customerDetails = await getCustomer(customerId);
+		if(!customerDetails) {
+			return next(new AppError("No customer found with that ID", 404));
+		}
 		const paymentsByCustomer = await getCustomerPayments(customerId);
 		res.status(200).json({
 			status: "success",
@@ -72,6 +80,10 @@ const httpGetCustomer = async (req, res, next) => {
 const httpGetPaymentsByCustomer = async (req, res, next) => {
 	try {
 		const customerId = req.params.customerId;
+		const isCustomerFound = await doesCustomerExist(customerId);
+		if(!isCustomerFound) {
+			return next(new AppError("No customer found with that id", 404));
+		}
 		const payments = await getCustomerPayments(customerId);
 		res.status(200).json({
 			status: "success",
@@ -79,7 +91,7 @@ const httpGetPaymentsByCustomer = async (req, res, next) => {
 			data: payments
 		})
 	} catch(err) {
-		next(new AppError(err, 404));
+		next(new AppError(err, 500));
 	}
 }
 
@@ -87,45 +99,46 @@ const httpGetPaymentsByCustomer = async (req, res, next) => {
 
 const httpChargeCustomerCard = async (req, res, next) => {
 	try {
-		const { nameOnCard, cardNumber, expiryMonth, expiryYear, cvv, amount, currency, tx_ref } = req.body;
+		const { nameOnCard, cardNumber, expiryMonth, expiryYear, cvv, amount, currency, pin } = req.body;
 		// throw error if one or more required detail is missing
-		if (!nameOnCard || !cardNumber || !expiryMonth || !expiryYear || !cvv || !amount || !tx_ref) {
+		if (!nameOnCard || !cardNumber || !expiryMonth || !expiryYear || !cvv || !amount) {
 			next(new AppError("Missing card details, please complete all required fields", 400))
 		}
-		const chargeDetails = {
-			nameOnCard, cardNumber, expiryMonth, expiryYear, cvv, amount, currency, tx_ref
+		const cardDetails = {
+			nameOnCard, cardNumber, expiryMonth, expiryYear, cvv, amount, currency, pin
 		};
 		const customer = await getCustomer(req.params.customerId);
 		// charge card
-		const chargeResponse = await fwChargeCard(customer, chargeDetails);
-		if (chargeResponse.status === "error") {
-			next(new AppError(chargeResponse.message, 500))
-		}
-		// validate card
-		const validateResponse = await fwValidateCharge(chargeResponse.ref);
-		const { data: { charged_amount, created_at, flw_ref, card: { last_4digits } }} = validateResponse;
-		// add payment record to db
-		if (validateResponse.data.status === "successful") {
-			var newPaymentId = await addNewPayment(
-				req.params.customerId, 
-				charged_amount, 
-				last_4digits, 
-				currency, 
-				chargeResponse.ref
-			);
-		}
-		res.status(200).json({
-			status: "success",
-			payment: {
-				paymentId: newPaymentId,
-				customerId: Number(req.params.customerId),
-				createTime: created_at,
-				amount: charged_amount,
-				cardLast4Digits: last_4digits,
-				currency,
-				ref: chargeResponse.ref
+		const chargeResponse = await fwChargeCard(customer, cardDetails);
+
+		switch(chargeResponse?.status) {
+			case "success": {
+				const { charged_amount, last_4digits, currency, created_at, flw_ref } = chargeResponse.data
+				// add payment record to db
+				const newPaymentId = await addNewPayment(
+					req.params.customerId, 
+					charged_amount, 
+					last_4digits, 
+					currency, 
+					flw_ref
+				);
+				res.status(200).json({
+					status: "success",
+					payment: {
+						paymentId: newPaymentId,
+						customerId: Number(req.params.customerId),
+						createTime: created_at,
+						amount: charged_amount,
+						cardLast4Digits: last_4digits,
+						currency,
+						ref: flw_ref
+					}
+				})
 			}
-		})
+			default: {
+				res.status(200).json(chargeResponse);
+			}
+		}
 	} catch(err) {
 		next(new AppError(err, 500));
 	}

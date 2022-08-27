@@ -44,9 +44,20 @@ const getCustomerPayments = async (customerId) => {
 	return payments[0];
 }
 
+const doesCustomerExist = async (customerId) => {
+	const isFound = await connection.promise().query({
+		sql: `SELECT customerId
+				FROM customers
+				WHERE EXISTS
+				(SELECT customerId FROM customers WHERE customerId = ${customerId});`
+	});
+	return isFound[0].length > 0;
+}
+
 module.exports = {
 	getAllCustomers,
 	createNewCustomer,
 	getCustomer,
-	getCustomerPayments
+	getCustomerPayments,
+	doesCustomerExist
 }
