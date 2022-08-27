@@ -1,8 +1,8 @@
 const request = require("supertest");
-const {faker} = require("@faker-js/faker")
 require('dotenv').config();
 const { mysqlConnect, mysqlDisconnect } = require("../../services/mysql")
 const app = require("../../app");
+const { generateUniqueEmailForTest } = require("../../utils/helperFunctions.js")
 
 describe("Launches API", () => {
 	beforeAll(() => {
@@ -14,7 +14,7 @@ describe("Launches API", () => {
 	});
 	describe("Test POST /v1/customers to create new customers", () => {
 		const completedCustomerData = {
-		    email: faker.internet.email(),
+		    email: generateUniqueEmailForTest(),
 		    firstName: "test",
 		    lastName: "test",
 		    city: "Port Harcourt",
