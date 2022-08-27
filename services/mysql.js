@@ -4,7 +4,7 @@ const options = {
 	host: "localhost",
 	user: process.env.DB_USER,
 	password: process.env.DB_PASSWORD,
-	database: "whyte_irecharge_task"
+	database: process.env.NODE_ENV === "test" ? "whyte_irecharge_task_test" : "whyte_irecharge_task"
 }
 var connection = mysql.createConnection(options);
 
@@ -17,13 +17,13 @@ function mysqlConnect() {
 		}
 
 		console.log('connected as id ' + connection.threadId);
+		console.log("connected to database: " + options.database);
 	})
 }
 
 function mysqlDisconnect() {
 	connection.end(function(err) {
 		if (err) return console.log("error terminating connection");
-		console.log("connection terminated")
 	})
 }
 

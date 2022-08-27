@@ -31,6 +31,7 @@ npm install
 ```
 mysql --user=[your_db_username] --password=[your_db_user_password] < setup.sql
 ```
+Replace [your_db_username] with your mysql user account name, and [your_db_user_password] with your account password.
 
 3. Create a `.env` file at the root of the folder and fill in the following.
 ```

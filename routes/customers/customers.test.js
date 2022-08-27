@@ -6,6 +6,7 @@ const app = require("../../app");
 
 describe("Launches API", () => {
 	beforeAll(() => {
+		jest.setTimeout(30000);
 		mysqlConnect();
 	});
 	afterAll(() => {
@@ -57,7 +58,7 @@ describe("Launches API", () => {
 			cvv: "780",
 			amount: "7500",
 			currency: "NGN",
-			tx_ref: faker.word.adjective()
+			tx_ref: "ms_1212"
 		};
 
 		const missingRequiredCardInfo = {
@@ -71,7 +72,6 @@ describe("Launches API", () => {
 		}
 
 		test("it should respond with 200 OK", async () => {
-			jest.setTimeout(30000);
 			const response = await request(app)
 			.post("/v1/customers/1/charge")
 			.send(completedCardInfo)
