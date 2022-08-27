@@ -23,7 +23,7 @@ const httpAddNewCustomer = async (req, res, next) => {
 
 		// throw error if one or more required detail is missing
 		if(!email || !firstName || !lastName || !city || !address || !state || !country || !zipcode) {
-			next(new AppError("Missing card details, please complete all required fields", 401))
+			next(new AppError("Missing card details, please complete all required fields", 400))
 		}
 		
 		const newCustomerId = await createNewCustomer(
@@ -90,7 +90,7 @@ const httpChargeCustomerCard = async (req, res, next) => {
 		const { nameOnCard, cardNumber, expiryMonth, expiryYear, cvv, amount, currency, tx_ref } = req.body;
 		// throw error if one or more required detail is missing
 		if (!nameOnCard || !cardNumber || !expiryMonth || !expiryYear || !cvv || !amount || !tx_ref) {
-			next(new AppError("Missing card details, please complete all required fields", 401))
+			next(new AppError("Missing card details, please complete all required fields", 400))
 		}
 		const chargeDetails = {
 			nameOnCard, cardNumber, expiryMonth, expiryYear, cvv, amount, currency, tx_ref
@@ -99,7 +99,7 @@ const httpChargeCustomerCard = async (req, res, next) => {
 		// charge card
 		const chargeResponse = await fwChargeCard(customer, chargeDetails);
 		if (chargeResponse.status === "error") {
-			next(new AppError(chargeResponse.message, 401))
+			next(new AppError(chargeResponse.message, 500))
 		}
 		// validate card
 		const validateResponse = await fwValidateCharge(chargeResponse.ref);

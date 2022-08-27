@@ -1,4 +1,5 @@
 const Flutterwave = require('flutterwave-node-v3');
+require('dotenv').config();
 const { REDIRECT_URL, TEST_OTP, TEST_PIN } = require("../constants"); 
 
 const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY);

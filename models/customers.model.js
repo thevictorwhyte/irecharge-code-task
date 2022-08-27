@@ -1,4 +1,4 @@
-const connection = require("./db.js");
+const { connection } = require("../services/mysql");
 const AppError = require("../utils/AppError")
 
 const getAllCustomers = async () => {
@@ -11,7 +11,7 @@ const getAllCustomers = async () => {
 const createNewCustomer = async (
 	email, 
 	firstName, 
-	middleName,
+	middleName = null,
 	lastName, 
 	city, 
 	address, 

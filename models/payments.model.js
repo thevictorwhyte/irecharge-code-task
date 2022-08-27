@@ -1,4 +1,4 @@
-const connection = require("./db.js");
+const { connection } = require("../services/mysql");
 const AppError = require("../utils/AppError")
 
 const addNewPayment = async (customerId, amount, cardLast4Digits, currency, ref) => {
