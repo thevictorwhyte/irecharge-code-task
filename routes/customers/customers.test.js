@@ -40,7 +40,7 @@ describe("Launches API", () => {
 			.expect("Content-Type", /json/)
 			.expect(201);
 		});
-		test("it should respond with 400 bad request", async () => {
+		test("it should respond with 400 bad request from missing required data", async () => {
 			const response = await request(app)
 			.post("/v1/customers")
 			.send(missingRequiredCustomerData)
@@ -50,15 +50,15 @@ describe("Launches API", () => {
 	});
 
 	describe("Test POST /v1/customers/:customer_id/charge to charge customer card", () => {
-		const completedCardInfo = {
+		const successfulCardInfo = {
 			nameOnCard: "Victor Whyte",
-			cardNumber: "5061460410120223210",
-			expiryMonth: "12",
-			expiryYear: "31",
-			cvv: "780",
+			cardNumber: "5061460166976054667",
+			expiryMonth: "10",
+			expiryYear: "22",
+			cvv: "470",
 			amount: "7500",
 			currency: "NGN",
-			tx_ref: "ms_1212"
+			pin: "3310"
 		};
 
 		const missingRequiredCardInfo = {
@@ -68,17 +68,17 @@ describe("Launches API", () => {
 		    cvv: "780",
 		    amount: "7500",
 		    currency: "NGN",
-		    tx_ref: faker.word.adjective()
+			pin: "3310"
 		}
 
-		test("it should respond with 200 OK", async () => {
+		test("it should charge card and respond with 200 OK", async () => {
 			const response = await request(app)
 			.post("/v1/customers/1/charge")
-			.send(completedCardInfo)
+			.send(successfulCardInfo)
 			.expect("Content-Type", /json/)
 			.expect(200);
 		});
-		test("it should respond with 400 bad request", async () => {
+		test("it should respond with 400 bad request from missing card data", async () => {
 			const response = await request(app)
 			.post("/v1/customers/1/charge")
 			.send(missingRequiredCardInfo)
