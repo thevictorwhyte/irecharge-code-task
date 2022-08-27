@@ -20,6 +20,12 @@ const httpAllCustomers = async (req, res, next) => {
 const httpAddNewCustomer = async (req, res, next) => {
 	try {
 		const { email, firstName, middleName, lastName, city, address, state, country, zipcode } = req.body;
+
+		// throw error if one or more required detail is missing
+		if(!email || !firstName || !lastName || !city || !address || !state || !country || !zipcode) {
+			next(new AppError("Missing card details, please complete all required fields", 401))
+		}
+		
 		const newCustomerId = await createNewCustomer(
 			email, 
 			firstName, 
@@ -84,7 +90,7 @@ const httpChargeCustomerCard = async (req, res, next) => {
 		const { nameOnCard, cardNumber, expiryMonth, expiryYear, cvv, amount, currency, tx_ref } = req.body;
 		// throw error if one or more required detail is missing
 		if (!nameOnCard || !cardNumber || !expiryMonth || !expiryYear || !cvv || !amount || !tx_ref) {
-			next(new AppError("Missing charge details, please complete all required fields", 401))
+			next(new AppError("Missing card details, please complete all required fields", 401))
 		}
 		const chargeDetails = {
 			nameOnCard, cardNumber, expiryMonth, expiryYear, cvv, amount, currency, tx_ref

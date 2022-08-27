@@ -15,8 +15,10 @@ app.use(cors({
 app.use(express.json());
 app.use("/v1", api);
 app.all("*", (req, res, next) => {
- next(new AppError(`The URL ${req.originalUrl} does not exist`, 404));
+    // handle error for nonexistent routes
+    next(new AppError(`The URL ${req.originalUrl} does not exist`, 404));
 });
+// global app error handler middleware
 app.use(errorHandler);
 
 app.listen(PORT, () => {
