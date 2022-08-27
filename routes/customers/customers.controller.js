@@ -59,9 +59,25 @@ const httpGetCustomer = async (req, res, next) => {
 			}
 		})
 	} catch(err) {
-		next(new AppError(err, 201));
+		next(new AppError(err, 404));
 	}
 }
+
+const httpGetPaymentsByCustomer = async (req, res, next) => {
+	try {
+		const customerId = req.params.customerId;
+		const payments = await getCustomerPayments(customerId);
+		res.status(200).json({
+			status: "success",
+			length: payments?.length,
+			data: payments
+		})
+	} catch(err) {
+		next(new AppError(err, 404));
+	}
+}
+
+
 
 const httpChargeCustomerCard = async (req, res, next) => {
 	try {
@@ -113,5 +129,6 @@ module.exports = {
 	httpAllCustomers,
 	httpAddNewCustomer,
 	httpGetCustomer,
-	httpChargeCustomerCard
+	httpChargeCustomerCard,
+	httpGetPaymentsByCustomer
 }
