@@ -4,6 +4,9 @@ iRecharge code task
 ## Introduction
 iRecharge code task is a RESTful API service to charge a customer's card using a third party payement gateway (Flutterwave) to process payments
 
+## Documentation
+Please visit the [Official Postman documentation](https://documenter.getpostman.com/view/10703028/VUr1HtAY) for the API.
+
 ## Overview
 The faetures of this service includes:
 * Create a new customer
@@ -15,32 +18,6 @@ The faetures of this service includes:
 For you to run this project on your local computer, ensure you have install and setup the following:
 * **Node** as the javascript runtime engine of choice.
 * **MySQL** as the database of choice.
-
-## Main Files: Project Structure
-  ```sh
-  ├── setup.sql
-  ├── server.js 
-  ├── README.md
-  ├── package.json
-  ├── package-lock.json
-  ├── constants.js
-  ├── gitignore
-  ├── utils
-  │   ├── appError.js 
-  │   ├── errorHandler.js
-  ├── routes
-  │   ├── api.js
-  └── customers
-  ├   ├── customers.controller.js
-  ├   ├── customers.router.js
-  ├── payments
-  ├   ├── payments.controller.js
-  ├   ├── payments.router.js
-  ├── models
-  ├   ├── customers.model.js 
-  ├   ├── db.js
-  ├   ├── payments.model.js
-  ```
 
 ## Development Setup
 1. Clone the repo, change into the directory and install packages using npm.
@@ -71,59 +48,30 @@ npm run dev
 <!-- Server will start running by default of port 3000 -->
 ```
 
-## v1 Endpoints Documentation (current release)
-Documentation of available API endpoints including the URL, request parameters, and the response body
-### `GET '/v1/customers'`
-- Fetches all customers.
-- Returns a list of customers, status message and number of customers.
-- Sample: `curl http://localhost:3000/v1/customers`
+## Main Files: Project Structure
+  ```sh
+  ├── setup.sql
+  ├── server.js 
+  ├── README.md
+  ├── package.json
+  ├── package-lock.json
+  ├── constants.js
+  ├── gitignore
+  ├── utils
+  │   ├── appError.js 
+  │   ├── errorHandler.js
+  ├── routes
+  │   ├── api.js
+  └── customers
+  │    ├── customers.controller.js
+  │    ├── customers.router.js
+  ├── payments
+  │    ├── payments.controller.js
+  │    ├── payments.router.js
+  ├── models
+     ├── customers.model.js 
+     ├── db.js
+     ├── payments.model.js
+  ```
 
-```json
-{
-	"status": "success",
-	"length": 1,
-	"data": [
-	    {
-	        "customerId": 1,
-	        "email": "victordavidwhyte@gmail.com",
-	        "createTime": "2022-08-26T14:26:40.000Z",
-	        "firstName": "victor",
-	        "lastName": "whyte"
-	    }
-	]
-}
-```
-
-### `POST '/v1/customers'`
-- Add a new customer.
-- Request body:
-  - `firstName`: String (required).
-  - `lastName`: String (optional)
-  - `email`: String (required).
-- Returns a list of customers, status message and number of customers.
-- Sample: `curl http://localhost:3000/v1/customers`
-- Returns:
-  - `status`: success or error.
-  - `customer`: customer details.
-
-#### Sample request
-```json
-{
-    "email": "victorahyte@gmail.com",
-    "firstName": "victor",
-    "lastName": "whyte"
-}
-```
-
-#### Sample response
-```json
-{
-    "status": "success",
-    "customer": {
-        "customerId": 1,
-        "email": "victordavidwhyte@gmail.com",
-        "firstName": "victor",
-        "lastName": "whyte"
-    }
-}
-```
+### [Go to documentation](https://documenter.getpostman.com/view/10703028/VUr1HtAY) 
