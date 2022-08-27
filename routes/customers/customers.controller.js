@@ -1,4 +1,4 @@
-const { getAllCustomers, createNewCustomer, getCustomer } = require("../../models/customers.model");
+const { getAllCustomers, createNewCustomer, getCustomer, getCustomerPayments } = require("../../models/customers.model");
 const AppError = require("../../utils/AppError");
 const { fwChargeCard, fwValidateCharge } = require("../../services/flutterwave.js");
 const { addNewPayment } = require("../../models/payments.model");
@@ -41,7 +41,26 @@ const httpAddNewCustomer = async (req, res, next) => {
 	} catch(err) {
 		next(new AppError(err, 500));
 	}
-	
+}
+
+const httpGetCustomer = async (req, res, next) => {
+	try {
+		const customerId = req.params.customerId;
+		const customerDetails = await getCustomer(customerId);
+		const paymentsByCustomer = await getCustomerPayments(customerId);
+		res.status(200).json({
+			status: "success",
+			data: {
+				...customerDetails,
+				payments: {
+					length: paymentsByCustomer?.length,
+					data: paymentsByCustomer
+				}
+			}
+		})
+	} catch(err) {
+		next(new AppError(err, 201));
+	}
 }
 
 const httpChargeCustomerCard = async (req, res, next) => {
@@ -88,11 +107,11 @@ const httpChargeCustomerCard = async (req, res, next) => {
 	} catch(err) {
 		next(new AppError(err, 500));
 	}
-
 }
 
 module.exports = {
 	httpAllCustomers,
 	httpAddNewCustomer,
+	httpGetCustomer,
 	httpChargeCustomerCard
 }
