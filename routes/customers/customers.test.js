@@ -1,4 +1,5 @@
 const request = require("supertest");
+const {faker} = require("@faker-js/faker")
 require('dotenv').config();
 const { mysqlConnect, mysqlDisconnect } = require("../../services/mysql")
 const app = require("../../app");
@@ -12,7 +13,7 @@ describe("Launches API", () => {
 	});
 	describe("Test POST /v1/customers to create new customers", () => {
 		const completedCustomerData = {
-		    email: "testmail@gmail.com",
+		    email: faker.internet.email(),
 		    firstName: "test",
 		    lastName: "test",
 		    city: "Port Harcourt",
@@ -56,7 +57,7 @@ describe("Launches API", () => {
 			cvv: "780",
 			amount: "7500",
 			currency: "NGN",
-			tx_ref: "TS_1242"
+			tx_ref: faker.word.adjective()
 		};
 
 		const missingRequiredCardInfo = {
@@ -66,7 +67,7 @@ describe("Launches API", () => {
 		    cvv: "780",
 		    amount: "7500",
 		    currency: "NGN",
-		    tx_ref: "TS_1222"
+		    tx_ref: faker.word.adjective()
 		}
 
 		test("it should respond with 200 OK", async () => {
