@@ -5,9 +5,20 @@ const { generateTxRef } = require("../utils/helperFunctions.js")
 
 const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY);
 
+/**
+ * Function accepts the customer information and card details,
+ * charges the card and if no authorization or authentication
+ * is needed, it verifies the transaction.
+ * 
+ * @param {customer}      Details of the customer 
+ * @param {cardDetails}   Card details 
+ * 
+ * @returns {Object}
+ */
 const fwChargeCard = async (customer, cardDetails) => {
 	const { nameOnCard, cardNumber, expiryMonth, expiryYear, cvv, amount, currency, pin } = cardDetails;
-	const { email, city, address, state, country, zipcode, firstName, lastName } = customer;
+	const { email, firstName, lastName } = customer;
+	// Structure payload
 	const payload = {
 		card_number: cardNumber,
 		cvv: cvv,
@@ -25,6 +36,7 @@ const fwChargeCard = async (customer, cardDetails) => {
 			pin: pin || TEST_PIN
 		}
 	}
+	// Initiate charge to card
 	const response = await flw.Charge.card(payload);
 	switch(response?.data?.status) {
 		case "successful": {
@@ -49,6 +61,7 @@ const fwChargeCard = async (customer, cardDetails) => {
 			}
 		}
 		default: {
+			 // if there is an authorization object then further authentication is needed
 			 if(response?.meta?.authorization) {
 			 	return {
 			 		status: "failed",
