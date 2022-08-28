@@ -5,7 +5,8 @@ const {
 	httpAddNewCustomer, 
 	httpChargeCustomerCard,
 	httpGetCustomer,
-	httpGetPaymentsByCustomer
+	httpGetPaymentsByCustomer,
+	httpHandleOtp
 } = require("./customers.controller");
 
 const paymentsRouter = express.Router();
@@ -14,6 +15,7 @@ paymentsRouter.get("/", httpAllCustomers);
 paymentsRouter.post("/", httpAddNewCustomer);
 paymentsRouter.get("/:customerId", httpGetCustomer);
 paymentsRouter.post("/:customerId/charge", httpChargeCustomerCard);
+paymentsRouter.post("/:customerId/otp", httpHandleOtp);
 paymentsRouter.get("/:customerId/payments", httpGetPaymentsByCustomer);
 
 module.exports = paymentsRouter;

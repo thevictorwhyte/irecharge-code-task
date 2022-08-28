@@ -42,7 +42,7 @@ const authorizeCharge = async (response, payload, pin, city, address, country, s
 		case "redirect": {
 			return {
 				status: "failed",
-				message: "Additional verification is needed."
+				message: "Requires redirect authentication"
 			}
 		}
 		default: {
