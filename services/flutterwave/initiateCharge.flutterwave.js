@@ -1,6 +1,6 @@
 const flw = require("./main.flutterwave");
+
 /**
- * STEP ONE
  * This function charges the card to typically know the authorization mode.
  * Which could be either pin, avs_noauth or redirect.
  * 

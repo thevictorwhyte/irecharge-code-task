@@ -72,6 +72,7 @@ FLW_PUBLIC_KEY=[your flutterwave public key]
 FLW_SECRET_KEY=[your flutterwave secret key]
 FLW_ENCRYPTION_KEY=[your flutterwave encryption key]
 PORT=3000
+NODE_ENV=development
 ```
 
 4. Start the server.

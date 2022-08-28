@@ -3,11 +3,13 @@ const { generateTxRef } = require("../../utils/helperFunctions.js")
 const initiateCharge = require("./initiateCharge.flutterwave")
 const authorizeCharge = require("./authorizeCharge.flutterwave")
 const verifyPayment = require("./verifyPayment.flutterwave")
+
 /**
- * Function accepts the customer information and card details,
- * charges the card and if and authorizes with card pin or user info
- * and if no additional otp or redirect authentication is needed, 
- * it verifies the transaction.
+ * Function handles charging the customers account.
+ * It accepts the customer information and card details,
+ * charges the card if no OTP or redirect is needed. 
+ * If OTP is needed, it returns back the ref used to authorize
+ * the charge with the otp route.
  * 
  * @param {customer}      Details of the customer 
  * @param {cardDetails}   Card details 
@@ -47,9 +49,10 @@ const fwChargeCard = async (customer, cardDetails) => {
 		zipcode
 	);
 	if(authorizationResponse.status === "failed" || authorizationResponse.status === "error") return authorizationResponse;
+	
 	switch(authorizationResponse?.data?.status) {
 		case "successful": {
-			// verify payment
+			// no need for OTP or redirect verification. Verify payment
 			const verificationResponse = await verifyPayment(authorizationResponse.data.id)
 			const {  data: { charged_amount, currency, created_at, flw_ref, card: { last_4digits } }} = verificationResponse;
 			return {
@@ -64,11 +67,12 @@ const fwChargeCard = async (customer, cardDetails) => {
 			}
 		}
 		case "pending": {
+			// check if it is OTP it need
 			if(authorizationResponse.meta.authorization.mode === "otp") {
 				return {
 					status: "pending",
 					message: "An otp has been sent to your mobile phone",
-					ref: authorizationResponse.data.flw_ref
+					ref: authorizationResponse.data.flw_ref 
 				}
 			}
 			return {

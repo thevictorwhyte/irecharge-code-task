@@ -1,6 +1,5 @@
 const flw = require("./main.flutterwave");
 /**
- * STEP TWO
  * Function accepts the customer information, card details 
  * as well as the same payload used in step one.
  * Based on the authorization mode (pin, avs or redirect) 
