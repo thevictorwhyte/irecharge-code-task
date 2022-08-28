@@ -3,7 +3,7 @@ const verifyPayment = require("./verifyPayment.flutterwave.js");
 
 const fwHandleOtp = async (ref, otp) => {
 	const validationResponse = await validateCharge(ref, otp);
-	if(validationResponse.status === "error" || validationResponse.status === "failed") return validationResponse
+	if(validationResponse.status === "failed") return validationResponse
 	switch(validationResponse?.data?.status) {
 		case "successful": {
 			// verify payment
@@ -18,6 +18,12 @@ const fwHandleOtp = async (ref, otp) => {
 					last_4digits,
 					currency
 				}
+			}
+		}
+		case "failed": {
+			return {
+				status: "failed",
+				message: "You provided an incorrect OTP or system wasn't able to verify"
 			}
 		}
 		default: {
