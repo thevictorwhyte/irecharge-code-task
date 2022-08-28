@@ -3,6 +3,7 @@ const { generateTxRef } = require("../../utils/helperFunctions.js")
 const initiateCharge = require("./initiateCharge.flutterwave")
 const authorizeCharge = require("./authorizeCharge.flutterwave")
 const verifyPayment = require("./verifyPayment.flutterwave")
+const fwHandleOtp = require("./otp.flutterwave.js")
 
 /**
  * Function handles charging the customers account.
@@ -67,14 +68,19 @@ const fwChargeCard = async (customer, cardDetails) => {
 			}
 		}
 		case "pending": {
-			// check if it is OTP it need
+			// check if it is required authorization mode is an OTP
+			const { data: {flw_ref }} = authorizationResponse
 			if(authorizationResponse.meta.authorization.mode === "otp") {
+				if(process.env.NODE_ENV === "development") {
+					return await fwHandleOtp(flw_ref, TEST_OTP)
+				}
 				return {
 					status: "pending",
 					message: "An otp has been sent to your mobile phone",
-					ref: authorizationResponse.data.flw_ref 
+					ref: flw_ref
 				}
 			}
+
 			return {
 				status: "failed",
 				message: "Requires redirect authentication"
