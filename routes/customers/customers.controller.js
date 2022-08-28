@@ -6,6 +6,7 @@ const { getAllCustomers,
 	} = require("../../models/customers.model");
 const AppError = require("../../utils/AppError");
 const fwChargeCard = require("../../services/flutterwave/charge.flutterwave");
+const { addNewPayment } = require("../../models/payments.model");
 
 const httpAllCustomers = async (req, res, next) => {
 	try {
@@ -93,8 +94,6 @@ const httpGetPaymentsByCustomer = async (req, res, next) => {
 		next(new AppError(err, 500));
 	}
 }
-
-
 
 const httpChargeCustomerCard = async (req, res, next) => {
 	try {
