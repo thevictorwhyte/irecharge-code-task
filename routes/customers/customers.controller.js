@@ -110,7 +110,6 @@ const httpChargeCustomerCard = async (req, res, next) => {
 		const customer = await getCustomer(req.params.customerId);
 		// charge card
 		const chargeResponse = await fwChargeCard(customer, cardDetails);
-
 		switch(chargeResponse?.status) {
 			case "success": {
 				const { charged_amount, last_4digits, currency, created_at, flw_ref } = chargeResponse.data
@@ -122,7 +121,7 @@ const httpChargeCustomerCard = async (req, res, next) => {
 					currency, 
 					flw_ref
 				);
-				res.status(200).json({
+				return res.status(200).json({
 					status: "success",
 					payment: {
 						paymentId: newPaymentId,
@@ -136,7 +135,7 @@ const httpChargeCustomerCard = async (req, res, next) => {
 				})
 			}
 			default: {
-				res.status(200).json(chargeResponse);
+				return res.status(200).json(chargeResponse);
 			}
 		}
 	} catch(err) {
