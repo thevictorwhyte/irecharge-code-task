@@ -5,7 +5,7 @@ const { getAllCustomers,
 		doesCustomerExist
 	} = require("../../models/customers.model");
 const AppError = require("../../utils/AppError");
-const { fwChargeCard } = require("../../services/flutterwave.js");
+const fwChargeCard = require("../../services/flutterwave/charge.flutterwave");
 const { addNewPayment } = require("../../models/payments.model");
 
 const httpAllCustomers = async (req, res, next) => {
