@@ -4,9 +4,10 @@ const { mysqlConnect, mysqlDisconnect } = require("../../services/mysql")
 const app = require("../../app");
 const { generateUniqueEmailForTest } = require("../../utils/helperFunctions.js")
 
+jest.useRealTimers();
+
 describe("Launches API", () => {
 	beforeAll(() => {
-		jest.setTimeout(30000);
 		mysqlConnect();
 	});
 	afterAll(() => {
@@ -77,7 +78,7 @@ describe("Launches API", () => {
 			.send(successfulCardInfo)
 			.expect("Content-Type", /json/)
 			.expect(200);
-		});
+		}, 30000);
 		test("it should respond with 400 bad request from missing card data", async () => {
 			const response = await request(app)
 			.post("/v1/customers/1/charge")
