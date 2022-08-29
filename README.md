@@ -35,13 +35,13 @@ For you to run this project on your local computer, ensure you have install and 
   │   ├── helperFunctions.js
   ├── services
   │   ├── flutterwave
-  │    ├── authorizeCharge.flutterwave.js
-  │    ├── charge.flutterwave.js
-  │    ├── initiateCharge.flutterwave.js
-  │    ├── main.flutterwave.js
-  │    ├── otp.flutterwave.js
-  │    ├── validateCharge.flutterwave.js
-  │    ├── verifyPayment.flutterwave.js
+  │      ├── authorizeCharge.flutterwave.js
+  │      ├── charge.flutterwave.js
+  │      ├── initiateCharge.flutterwave.js
+  │      ├── main.flutterwave.js
+  │      ├── otp.flutterwave.js
+  │      ├── validateCharge.flutterwave.js
+  │      ├── verifyPayment.flutterwave.js
   │   ├── mysql.js
   ├── routes
   │   ├── api.js
