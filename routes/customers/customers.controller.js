@@ -5,7 +5,7 @@ const { getAllCustomers,
 		doesCustomerExist
 	} = require("../../models/customers.model");
 const AppError = require("../../utils/AppError");
-const { fwChargeCard } = require("../../services/flutterwave.js");
+const fwChargeCard = require("../../services/flutterwave/charge.flutterwave");
 const { addNewPayment } = require("../../models/payments.model");
 
 const httpAllCustomers = async (req, res, next) => {
@@ -95,22 +95,21 @@ const httpGetPaymentsByCustomer = async (req, res, next) => {
 	}
 }
 
-
-
 const httpChargeCustomerCard = async (req, res, next) => {
 	try {
 		const { nameOnCard, cardNumber, expiryMonth, expiryYear, cvv, amount, currency, pin } = req.body;
 		// throw error if one or more required detail is missing
+
 		if (!nameOnCard || !cardNumber || !expiryMonth || !expiryYear || !cvv || !amount) {
-			next(new AppError("Missing card details, please complete all required fields", 400))
+			return next(new AppError("Missing card details, please complete all required fields", 400))
 		}
 		const cardDetails = {
 			nameOnCard, cardNumber, expiryMonth, expiryYear, cvv, amount, currency, pin
 		};
 		const customer = await getCustomer(req.params.customerId);
+		if(!customer) return next(new AppError("No customer found with that ID", 404))
 		// charge card
 		const chargeResponse = await fwChargeCard(customer, cardDetails);
-
 		switch(chargeResponse?.status) {
 			case "success": {
 				const { charged_amount, last_4digits, currency, created_at, flw_ref } = chargeResponse.data
@@ -122,7 +121,7 @@ const httpChargeCustomerCard = async (req, res, next) => {
 					currency, 
 					flw_ref
 				);
-				res.status(200).json({
+				return res.status(200).json({
 					status: "success",
 					payment: {
 						paymentId: newPaymentId,
@@ -136,13 +135,14 @@ const httpChargeCustomerCard = async (req, res, next) => {
 				})
 			}
 			default: {
-				res.status(200).json(chargeResponse);
+				return res.status(200).json(chargeResponse);
 			}
 		}
 	} catch(err) {
 		next(new AppError(err, 500));
 	}
 }
+
 
 module.exports = {
 	httpAllCustomers,

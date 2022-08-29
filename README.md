@@ -5,7 +5,7 @@ iRecharge code task
 iRecharge code task is a RESTful API service to charge a customer's card using a third party payement gateway (Flutterwave) to process payments
 
 ## Documentation
-Please visit the [Official Postman documentation](https://documenter.getpostman.com/view/10703028/VUr1HtAY) for the API.
+Please visit the [Official Postman documentation](https://documenter.getpostman.com/view/10703028/VUxKTowp) for the API.
 
 ## Overview
 The faetures of this service includes:
@@ -72,6 +72,9 @@ FLW_PUBLIC_KEY=[your flutterwave public key]
 FLW_SECRET_KEY=[your flutterwave secret key]
 FLW_ENCRYPTION_KEY=[your flutterwave encryption key]
 PORT=3000
+NODE_ENV=development
+
+<!-- NOTE: Setting NOE_ENV to development will automatically authorize OTP transactions with the test OTP of 12345. If you want to use the OTP endpoint, then set it to something else so it returns the ref. More on this in documentation -->
 ```
 
 4. Start the server.
@@ -82,4 +85,4 @@ npm run dev
 ```
 
 
-### [Go to documentation](https://documenter.getpostman.com/view/10703028/VUr1HtAY) 
+### [Go to documentation](https://documenter.getpostman.com/view/10703028/VUxKTowp) 

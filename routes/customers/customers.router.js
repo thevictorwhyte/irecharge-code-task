@@ -8,12 +8,12 @@ const {
 	httpGetPaymentsByCustomer
 } = require("./customers.controller");
 
-const paymentsRouter = express.Router();
+const customersRouter = express.Router();
 
-paymentsRouter.get("/", httpAllCustomers);
-paymentsRouter.post("/", httpAddNewCustomer);
-paymentsRouter.get("/:customerId", httpGetCustomer);
-paymentsRouter.post("/:customerId/charge", httpChargeCustomerCard);
-paymentsRouter.get("/:customerId/payments", httpGetPaymentsByCustomer);
+customersRouter.get("/", httpAllCustomers);
+customersRouter.post("/", httpAddNewCustomer);
+customersRouter.get("/:customerId", httpGetCustomer);
+customersRouter.post("/:customerId/charge", httpChargeCustomerCard);
+customersRouter.get("/:customerId/payments", httpGetPaymentsByCustomer);
 
-module.exports = paymentsRouter;
+module.exports = customersRouter;
